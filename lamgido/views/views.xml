@@ -1,60 +1,136 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="lamgido.list">
-      <field name="name">Lamgido list</field>
-      <field name="model">lamgido.lamgido</field>
+
+    <!-- Category list -->
+    <record id="view_dw_category_tree" model="ir.ui.view">
+      <field name="name">lamgido.dw.category.tree</field>
+      <field name="model">lamgido.dw.category</field>
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
+          <field name="code"/>
+          <field name="active"/>
         </tree>
       </field>
     </record>
--->
 
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="lamgido.action_window">
-      <field name="name">Lamgido window</field>
-      <field name="res_model">lamgido.lamgido</field>
-      <field name="view_mode">tree,form</field>
-    </record>
--->
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="lamgido.action_server">
-      <field name="name">Lamgido server</field>
-      <field name="model_id" ref="model_lamgido_lamgido"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
+    <!-- Category form -->
+    <record id="view_dw_category_form" model="ir.ui.view">
+      <field name="name">lamgido.dw.category.form</field>
+      <field name="model">lamgido.dw.category</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="code"/>
+              <field name="active"/>
+            </group>
+            <group>
+              <field name="description"/>
+            </group>
+          </sheet>
+        </form>
       </field>
     </record>
--->
 
-    <!-- Top menu item -->
-<!--
-    <menuitem name="Lamgido" id="lamgido.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="lamgido.menu_1" parent="lamgido.menu_root"/>
-    <menuitem name="Menu 2" id="lamgido.menu_2" parent="lamgido.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="lamgido.menu_1_list" parent="lamgido.menu_1"
-              action="lamgido.action_window"/>
-    <menuitem name="Server to list" id="lamgido" parent="lamgido.menu_2"
-              action="lamgido.action_server"/>
--->
+    <!-- Fact list -->
+    <record id="view_dw_record_tree" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.tree</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="date"/>
+          <field name="category_id"/>
+          <field name="measure_amount"/>
+          <field name="measure_qty"/>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Fact form -->
+    <record id="view_dw_record_form" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.form</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="date"/>
+              <field name="category_id"/>
+            </group>
+            <group>
+              <field name="measure_amount"/>
+              <field name="measure_qty"/>
+            </group>
+            <group>
+              <field name="name"/>
+              <field name="notes"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Graph view (dashboard chart) -->
+    <record id="view_dw_record_graph" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.graph</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <graph string="DW Amount by Category and Date" type="bar">
+          <field name="date" type="row"/>
+          <field name="category_id" type="col"/>
+          <field name="measure_amount" type="measure"/>
+        </graph>
+      </field>
+    </record>
+
+    <!-- Pivot view (OLAP-style report) -->
+    <record id="view_dw_record_pivot" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.pivot</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <pivot string="DW Pivot">
+          <field name="category_id" type="row"/>
+          <field name="date" interval="month" type="col"/>
+          <field name="measure_amount" type="measure"/>
+          <field name="measure_qty" type="measure"/>
+        </pivot>
+      </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_dw_categories" model="ir.actions.act_window">
+      <field name="name">DW Categories</field>
+      <field name="res_model">lamgido.dw.category</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_dw_records" model="ir.actions.act_window">
+      <field name="name">DW Records</field>
+      <field name="res_model">lamgido.dw.record</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_lamgido_root" name="DataWarehouse_Dashboard"/>
+
+    <menuitem id="menu_lamgido_dw_root"
+              name="Data Warehouse"
+              parent="menu_lamgido_root"
+              sequence="10"/>
+
+    <menuitem id="menu_lamgido_dw_categories"
+              name="Categories"
+              parent="menu_lamgido_dw_root"
+              action="action_dw_categories"
+              sequence="10"/>
+
+    <menuitem id="menu_lamgido_dw_records"
+              name="Records &amp; Reports"
+              parent="menu_lamgido_dw_root"
+              action="action_dw_records"
+              sequence="20"/>
   </data>
 </odoo>

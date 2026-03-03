@@ -1,18 +1,29 @@
 # -*- coding: utf-8 -*-
+from odoo import models, fields
 
-# from odoo import models, fields, api
+
+class LamgidoDwCategory(models.Model):
+    _name = 'lamgido.dw.category'
+    _description = 'DW Category'
+
+    name = fields.Char(required=True)
+    code = fields.Char()
+    description = fields.Text()
+    active = fields.Boolean(default=True)
 
 
-# class lamgido(models.Model):
-#     _name = 'lamgido.lamgido'
-#     _description = 'lamgido.lamgido'
+class LamgidoDwRecord(models.Model):
+    _name = 'lamgido.dw.record'
+    _description = 'DW Fact Record'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    name = fields.Char(string='Label')
+    date = fields.Date(required=True, default=fields.Date.context_today)
+    category_id = fields.Many2one(
+        'lamgido.dw.category',
+        string='Category',
+        required=True,
+    )
+    measure_amount = fields.Float(string='Amount', help='Main numeric measure')
+    measure_qty = fields.Float(string='Quantity')
+    notes = fields.Text()
+
