@@ -42,6 +42,7 @@
         <tree>
           <field name="date"/>
           <field name="category_id"/>
+          <field name="state"/>
           <field name="measure_amount"/>
           <field name="measure_qty"/>
           <field name="name"/>
@@ -55,13 +56,29 @@
       <field name="model">lamgido.dw.record</field>
       <field name="arch" type="xml">
         <form>
+          <header>
+            <button name="action_validate"
+                    type="object"
+                    string="Validate"
+                    states="new"
+                    class="btn-primary"/>
+            <button name="action_archive"
+                    type="object"
+                    string="Archive"
+                    states="new,validated"
+                    class="btn-secondary"/>
+            <field name="state"
+                   widget="statusbar"
+                   statusbar_visible="new,validated,archived"/>
+          </header>
           <sheet>
             <group>
               <field name="date"/>
               <field name="category_id"/>
+              <field name="active"/>
             </group>
             <group>
-              <field name="measure_amount"/>
+              <field name="measure_amount" readonly="1"/>
               <field name="measure_qty"/>
             </group>
             <group>
@@ -100,6 +117,33 @@
       </field>
     </record>
 
+    <!-- Search view -->
+    <record id="view_dw_record_search" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.search</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="category_id"/>
+          <field name="date"/>
+          <filter string="This Month"
+                  name="this_month"
+                  domain="[('date', '&gt;=', context_today().replace(day=1))]"/>
+          <filter string="Validated"
+                  name="validated"
+                  domain="[('state', '=', 'validated')]"/>
+          <group expand="0" string="Group By">
+            <filter string="Category"
+                    name="group_category"
+                    context="{'group_by': 'category_id'}"/>
+            <filter string="Month"
+                    name="group_month"
+                    context="{'group_by': 'date:month'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
     <!-- Actions -->
     <record id="action_dw_categories" model="ir.actions.act_window">
       <field name="name">DW Categories</field>
@@ -111,10 +155,14 @@
       <field name="name">DW Records</field>
       <field name="res_model">lamgido.dw.record</field>
       <field name="view_mode">tree,form,graph,pivot</field>
+      <field name="search_view_id" ref="view_dw_record_search"/>
     </record>
 
-    <!-- Menus -->
-    <menuitem id="menu_lamgido_root" name="DataWarehouse_Dashboard"/>
+    <!-- Menus (root as its own app) -->
+    <menuitem id="menu_lamgido_root"
+              name="Data Warehouse Dashboard"
+              parent="base.menu_root"
+              sequence="30"/>
 
     <menuitem id="menu_lamgido_dw_root"
               name="Data Warehouse"
