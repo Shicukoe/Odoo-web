@@ -16,52 +16,80 @@ class LamgidoDwRecord(models.Model):
     _description = "DW Fact Record"
 
     name = fields.Char(string="Label")
+
     date = fields.Date(
         required=True,
         default=fields.Date.context_today,
-        copy=False,
     )
+
     category_id = fields.Many2one(
         "lamgido.dw.category",
         string="Category",
         required=True,
     )
-    measure_amount = fields.Float(
-        string="Amount",
-        help="Main numeric measure",
-        readonly=True,
-        copy=False,
-    )
+
     measure_qty = fields.Float(
         string="Quantity",
         default=1.0,
     )
+
+    unit_price = fields.Float(
+        string="Unit Price",
+        default=0.0,
+    )
+
+    # ✅ Computed field
+    measure_amount = fields.Float(
+        string="Total Amount",
+        compute="_compute_total_amount",
+        store=True,   # important for pivot/graph reports
+    )
+
     notes = fields.Text()
     active = fields.Boolean(default=True)
+
     state = fields.Selection(
         [
             ("new", "New"),
             ("validated", "Validated"),
             ("archived", "Archived"),
         ],
-        string="Status",
         default="new",
         required=True,
-        copy=False,
     )
 
-    def action_validate(self):
+    # ==============================
+    # COMPUTE METHOD
+    # ==============================
+    @api.depends("measure_qty", "unit_price")
+    def _compute_total_amount(self):
         for record in self:
-            record.state = "validated"
+            record.measure_amount = record.measure_qty * record.unit_price
+
+    # ==============================
+    # ONCHANGE METHOD
+    # ==============================
+    @api.onchange("category_id")
+    def _onchange_category(self):
+        if self.category_id:
+            self.notes = f"Category selected: {self.category_id.name}"
+
+    # ==============================
+    # CONSTRAINT
+    # ==============================
+    @api.constrains("measure_qty", "unit_price")
+    def _check_positive_values(self):
+        for record in self:
+            if record.measure_qty < 0 or record.unit_price < 0:
+                raise exceptions.ValidationError(
+                    _("Quantity and Unit Price must be positive.")
+                )
+
+    # ==============================
+    # ACTION BUTTONS
+    # ==============================
+    def action_validate(self):
+        self.state = "validated"
 
     def action_archive(self):
-        for record in self:
-            record.state = "archived"
-
-    @api.constrains("measure_amount", "measure_qty")
-    def _check_positive_measures(self):
-        for record in self:
-            if record.measure_amount < 0 or record.measure_qty < 0:
-                raise exceptions.ValidationError(
-                    _("Amount and Quantity must be positive.")
-                )
+        self.state = "archived"
