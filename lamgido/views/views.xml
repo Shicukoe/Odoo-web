@@ -1,20 +1,24 @@
 <odoo>
   <data>
 
-    <!-- Category list -->
+    <!-- ========================= -->
+    <!-- Category Views -->
+    <!-- ========================= -->
+
+    <!-- Category List -->
     <record id="view_dw_category_tree" model="ir.ui.view">
       <field name="name">lamgido.dw.category.tree</field>
       <field name="model">lamgido.dw.category</field>
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
-          <field name="code"/>
+          <field name="description"/>
           <field name="active"/>
         </tree>
       </field>
     </record>
 
-    <!-- Category form -->
+    <!-- Category Form -->
     <record id="view_dw_category_form" model="ir.ui.view">
       <field name="name">lamgido.dw.category.form</field>
       <field name="model">lamgido.dw.category</field>
@@ -23,7 +27,6 @@
           <sheet>
             <group>
               <field name="name"/>
-              <field name="code"/>
               <field name="active"/>
             </group>
             <group>
@@ -34,7 +37,12 @@
       </field>
     </record>
 
-    <!-- Fact list -->
+
+    <!-- ========================= -->
+    <!-- Record Views -->
+    <!-- ========================= -->
+
+    <!-- Record List -->
     <record id="view_dw_record_tree" model="ir.ui.view">
       <field name="name">lamgido.dw.record.tree</field>
       <field name="model">lamgido.dw.record</field>
@@ -42,65 +50,92 @@
         <tree>
           <field name="date"/>
           <field name="category_id"/>
-          <field name="measure_amount"/>
-          <field name="measure_qty"/>
-          <field name="name"/>
+          <field name="quantity"/>
+          <field name="value_per_unit"/>
+          <field name="total_value"/>
+          <field name="state"/>
         </tree>
       </field>
     </record>
 
-    <!-- Fact form -->
+    <!-- Record Form -->
     <record id="view_dw_record_form" model="ir.ui.view">
       <field name="name">lamgido.dw.record.form</field>
       <field name="model">lamgido.dw.record</field>
       <field name="arch" type="xml">
         <form>
+          <header>
+            <button name="action_confirm"
+                    type="object"
+                    string="Confirm"
+                    states="draft"
+                    class="btn-primary"/>
+
+            <button name="action_done"
+                    type="object"
+                    string="Mark as Done"
+                    states="confirmed"
+                    class="btn-success"/>
+
+            <field name="state" widget="statusbar"/>
+          </header>
+
           <sheet>
             <group>
+              <field name="name"/>
               <field name="date"/>
               <field name="category_id"/>
             </group>
+
             <group>
-              <field name="measure_amount"/>
-              <field name="measure_qty"/>
-            </group>
-            <group>
-              <field name="name"/>
-              <field name="notes"/>
+              <field name="quantity"/>
+              <field name="value_per_unit"/>
+              <field name="total_value" readonly="1"/>
             </group>
           </sheet>
         </form>
       </field>
     </record>
 
-    <!-- Graph view (dashboard chart) -->
+
+    <!-- ========================= -->
+    <!-- Graph View -->
+    <!-- ========================= -->
+
     <record id="view_dw_record_graph" model="ir.ui.view">
       <field name="name">lamgido.dw.record.graph</field>
       <field name="model">lamgido.dw.record</field>
       <field name="arch" type="xml">
-        <graph string="DW Amount by Category and Date" type="bar">
-          <field name="date" type="row"/>
-          <field name="category_id" type="col"/>
-          <field name="measure_amount" type="measure"/>
+        <graph string="Total Value by Category" type="bar">
+          <field name="category_id" type="row"/>
+          <field name="total_value" type="measure"/>
         </graph>
       </field>
     </record>
 
-    <!-- Pivot view (OLAP-style report) -->
+
+    <!-- ========================= -->
+    <!-- Pivot View -->
+    <!-- ========================= -->
+
     <record id="view_dw_record_pivot" model="ir.ui.view">
       <field name="name">lamgido.dw.record.pivot</field>
       <field name="model">lamgido.dw.record</field>
       <field name="arch" type="xml">
-        <pivot string="DW Pivot">
+        <pivot string="DW Pivot Analysis">
           <field name="category_id" type="row"/>
           <field name="date" interval="month" type="col"/>
-          <field name="measure_amount" type="measure"/>
-          <field name="measure_qty" type="measure"/>
+          <field name="total_value" type="measure"/>
+          <field name="quantity" type="measure"/>
         </pivot>
       </field>
     </record>
 
+
+    <!-- ========================= -->
     <!-- Actions -->
+    <!-- ========================= -->
+
     <record id="action_dw_categories" model="ir.actions.act_window">
       <field name="name">DW Categories</field>
       <field name="res_model">lamgido.dw.category</field>
@@ -113,8 +148,14 @@
       <field name="view_mode">tree,form,graph,pivot</field>
     </record>
 
+
+    <!-- ========================= -->
     <!-- Menus -->
-    <menuitem id="menu_lamgido_root" name="DataWarehouse_Dashboard"/>
+    <!-- ========================= -->
+
+    <menuitem id="menu_lamgido_root"
+              name="DataWarehouse Dashboard"
+              sequence="10"/>
 
     <menuitem id="menu_lamgido_dw_root"
               name="Data Warehouse"
@@ -132,5 +173,6 @@
               parent="menu_lamgido_dw_root"
               action="action_dw_records"
               sequence="20"/>
+
   </data>
 </odoo>

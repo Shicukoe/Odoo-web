@@ -6,7 +6,6 @@ class LamgidoDwCategory(models.Model):
     _description = "DW Category"
 
     name = fields.Char(required=True)
-    code = fields.Char()
     description = fields.Text()
     active = fields.Boolean(default=True)
 
@@ -14,8 +13,9 @@ class LamgidoDwCategory(models.Model):
 class LamgidoDwRecord(models.Model):
     _name = "lamgido.dw.record"
     _description = "DW Fact Record"
+    _order = "date desc"
 
-    name = fields.Char(string="Label")
+    name = fields.Char(string="Reference", required=True)
 
     date = fields.Date(
         required=True,
@@ -28,68 +28,66 @@ class LamgidoDwRecord(models.Model):
         required=True,
     )
 
-    measure_qty = fields.Float(
+    quantity = fields.Float(
         string="Quantity",
+        required=True,
         default=1.0,
     )
 
-    unit_price = fields.Float(
-        string="Unit Price",
-        default=0.0,
-    )
-
-    # ✅ Computed field
-    measure_amount = fields.Float(
-        string="Total Amount",
-        compute="_compute_total_amount",
-        store=True,   # important for pivot/graph reports
-    )
-
-    notes = fields.Text()
-    active = fields.Boolean(default=True)
-
-    state = fields.Selection(
-        [
-            ("new", "New"),
-            ("validated", "Validated"),
-            ("archived", "Archived"),
-        ],
-        default="new",
+    value_per_unit = fields.Float(
+        string="Value per Unit",
         required=True,
     )
 
-    # ==============================
-    # COMPUTE METHOD
-    # ==============================
-    @api.depends("measure_qty", "unit_price")
-    def _compute_total_amount(self):
-        for record in self:
-            record.measure_amount = record.measure_qty * record.unit_price
+    # Chapter 9 computed field
+    total_value = fields.Float(
+        string="Total Value",
+        compute="_compute_total_value",
+        store=True,
+    )
 
-    # ==============================
-    # ONCHANGE METHOD
-    # ==============================
+    state = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("confirmed", "Confirmed"),
+            ("done", "Done"),
+        ],
+        default="draft",
+        required=True,
+    )
+
+    # =============================
+    # COMPUTE
+    # =============================
+    @api.depends("quantity", "value_per_unit")
+    def _compute_total_value(self):
+        for record in self:
+            record.total_value = record.quantity * record.value_per_unit
+
+    # =============================
+    # ONCHANGE
+    # =============================
     @api.onchange("category_id")
     def _onchange_category(self):
         if self.category_id:
-            self.notes = f"Category selected: {self.category_id.name}"
+            self.name = f"{self.category_id.name}-{fields.Date.today()}"
 
-    # ==============================
+    # =============================
     # CONSTRAINT
-    # ==============================
-    @api.constrains("measure_qty", "unit_price")
-    def _check_positive_values(self):
+    # =============================
+    @api.constrains("quantity", "value_per_unit")
+    def _check_positive(self):
         for record in self:
-            if record.measure_qty < 0 or record.unit_price < 0:
+            if record.quantity <= 0 or record.value_per_unit < 0:
                 raise exceptions.ValidationError(
-                    _("Quantity and Unit Price must be positive.")
+                    _("Quantity must be > 0 and Value must be positive.")
                 )
 
-    # ==============================
-    # ACTION BUTTONS
-    # ==============================
-    def action_validate(self):
-        self.state = "validated"
+    # =============================
+    # ACTION BUTTONS (Chapter 8)
+    # =============================
+    def action_confirm(self):
+        self.state = "confirmed"
 
-    def action_archive(self):
-        self.state = "archived"
+    def action_done(self):
+        self.state = "done"
