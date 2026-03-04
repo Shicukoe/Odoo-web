@@ -4,21 +4,10 @@ from odoo import models, fields, api
 class DwRecordCompute(models.Model):
     _inherit = 'lamgido.dw.record'
 
-    total_size = fields.Float(
-        compute='_compute_total_size',
-        store=True
-    )
-
     total_size_kb = fields.Float(
         compute='_compute_total_size_kb',
         store=True
     )
-
-
-    @api.depends('quantity', 'size_per_unit')
-    def _compute_total_size(self):
-        for rec in self:
-            rec.total_size = rec.quantity * rec.size_per_unit
 
 
     @api.depends('quantity', 'size_per_unit', 'size_unit')

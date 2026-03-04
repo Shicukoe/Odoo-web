@@ -4,7 +4,7 @@
     <record id="view_dw_category_tree" model="ir.ui.view">
       <field name="name">lamgido.dw.category.tree</field>
       <field name="model">lamgido.dw.category</field>
-      <field name="arch" type="xml">
+      <field name="arch" type="xml">              
         <tree editable="bottom">
           <field name="name"/>
           <field name="description"/>

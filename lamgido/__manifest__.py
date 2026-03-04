@@ -9,9 +9,12 @@ including list, graph and pivot reports for internal analysis.
     'author': "My Company",
     'category': 'Reporting',
     'version': '16.0.1.0.0',
+
     'depends': [
         'base',
+        # 'point_of_sale',  
     ],
+
     'data': [
         'security/ir.model.access.csv',
 

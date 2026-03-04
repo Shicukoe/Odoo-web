@@ -28,11 +28,6 @@ class DwRecord(models.Model):
         ('gb', 'GB'),
     ], string="Unit", default='mb', required=True)
 
-    # 🔹 Total size computed
-    total_size = fields.Float(
-        compute='_compute_total_size',
-        store=True
-    )
 
     state = fields.Selection([
         ('draft', 'Draft'),

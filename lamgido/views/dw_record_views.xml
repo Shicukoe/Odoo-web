@@ -13,7 +13,7 @@
           <field name="quantity"/>
           <field name="size_per_unit"/>
           <field name="size_unit"/>
-          <field name="total_size"/>
+          <field name="total_size_kb"/>
           <field name="state"/>
 
           <button name="action_confirm"
@@ -76,7 +76,7 @@
               <field name="quantity"/>
               <field name="size_per_unit"/>
               <field name="size_unit"/>
-              <field name="total_size" readonly="1"/>
+              <field name="total_size_kb" readonly="1"/>
             </group>
           </sheet>
         </form>
