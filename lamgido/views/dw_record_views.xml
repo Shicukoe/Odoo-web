@@ -1,0 +1,109 @@
+<odoo>
+  <data>
+
+    <!-- Tree -->
+    <record id="view_dw_record_tree" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.tree</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <tree editable="bottom">
+          <field name="name"/>
+          <field name="date"/>
+          <field name="category_id"/>
+          <field name="quantity"/>
+          <field name="value_per_unit"/>
+          <field name="total_value" readonly="1"/>
+          <field name="state"/>
+
+          <button name="action_confirm"
+                  type="object"
+                  string="Confirm"
+                  states="draft"
+                  class="oe_highlight"/>
+
+          <button name="action_done"
+                  type="object"
+                  string="Done"
+                  states="confirmed"
+                  class="btn-success"/>
+
+          <button name="action_reset_to_draft"
+                  type="object"
+                  string="Reset"
+                  states="done"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_dw_record_form" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.form</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="action_confirm"
+                    type="object"
+                    string="Confirm"
+                    states="draft"
+                    class="btn-primary"/>
+
+            <button name="action_done"
+                    type="object"
+                    string="Mark as Done"
+                    states="confirmed"
+                    class="btn-success"/>
+
+            <button name="action_reset_to_draft"
+                    type="object"
+                    string="Reset"
+                    states="done"/>
+
+            <field name="state"
+                   widget="statusbar"
+                   statusbar_visible="draft,confirmed,done"/>
+          </header>
+
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="date"/>
+              <field name="category_id"/>
+            </group>
+
+            <group>
+              <field name="quantity"/>
+              <field name="value_per_unit"/>
+              <field name="total_value" readonly="1"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_dw_records" model="ir.actions.act_window">
+      <field name="name">DW Records</field>
+      <field name="res_model">lamgido.dw.record</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_dw_root"
+              name="Data Warehouse"
+              sequence="10"/>
+
+    <menuitem id="menu_dw_categories"
+              name="Categories"
+              parent="menu_dw_root"
+              action="action_dw_categories"
+              sequence="10"/>
+
+    <menuitem id="menu_dw_records"
+              name="Records &amp; Reports"
+              parent="menu_dw_root"
+              action="action_dw_records"
+              sequence="20"/>
+
+  </data>
+</odoo>

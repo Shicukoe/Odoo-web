@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "DataWarehouse_Dashboard",
+    'name': "DataWarehouse Dashboard",
     'summary': "Internal data warehouse dashboard and reports",
     'description': """
 Data warehouse-style dashboard with categories and fact records,
@@ -9,12 +9,22 @@ including list, graph and pivot reports for internal analysis.
     'author': "My Company",
     'category': 'Reporting',
     'version': '16.0.1.0.0',
-    'depends': ['base'],
+    'depends': [
+        'base',
+    ],
     'data': [
         'security/ir.model.access.csv',
-        'views/views.xml',
+
+        # Category
+        'views/dw_category_views.xml',
+
+        # Records (UI + Menu)
+        'views/dw_record_views.xml',
+
+        # Reports
+        'views/dw_record_report_views.xml',
     ],
-    'demo': [],
     'application': True,
     'installable': True,
+    'license': 'LGPL-3',
 }

@@ -1,3 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import models
+from . import dw_category
+from . import dw_record
+from . import dw_record_compute
+from . import dw_record_workflow

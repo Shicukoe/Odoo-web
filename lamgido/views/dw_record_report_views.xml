@@ -1,0 +1,29 @@
+<odoo>
+  <data>
+
+    <record id="view_dw_record_graph" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.graph</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <graph string="Total Value by Category" type="bar">
+          <field name="category_id" type="row"/>
+          <field name="total_value" type="measure"/>
+        </graph>
+      </field>
+    </record>
+
+    <record id="view_dw_record_pivot" model="ir.ui.view">
+      <field name="name">lamgido.dw.record.pivot</field>
+      <field name="model">lamgido.dw.record</field>
+      <field name="arch" type="xml">
+        <pivot string="DW Pivot Analysis">
+          <field name="category_id" type="row"/>
+          <field name="date" interval="month" type="col"/>
+          <field name="total_value" type="measure"/>
+          <field name="quantity" type="measure"/>
+        </pivot>
+      </field>
+    </record>
+
+  </data>
+</odoo>
