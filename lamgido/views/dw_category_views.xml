@@ -35,6 +35,7 @@
       <field name="name">DW Categories</field>
       <field name="res_model">lamgido.dw.category</field>
       <field name="view_mode">tree,form</field>
+
     </record>
 
   </data>

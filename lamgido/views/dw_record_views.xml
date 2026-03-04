@@ -6,13 +6,14 @@
       <field name="name">lamgido.dw.record.tree</field>
       <field name="model">lamgido.dw.record</field>
       <field name="arch" type="xml">
-        <tree editable="bottom">
+        <tree>
           <field name="name"/>
           <field name="date"/>
           <field name="category_id"/>
           <field name="quantity"/>
-          <field name="value_per_unit"/>
-          <field name="total_value" readonly="1"/>
+          <field name="size_per_unit"/>
+          <field name="size_unit"/>
+          <field name="total_size"/>
           <field name="state"/>
 
           <button name="action_confirm"
@@ -71,10 +72,11 @@
               <field name="category_id"/>
             </group>
 
-            <group>
+            <group string="Storage Information">
               <field name="quantity"/>
-              <field name="value_per_unit"/>
-              <field name="total_value" readonly="1"/>
+              <field name="size_per_unit"/>
+              <field name="size_unit"/>
+              <field name="total_size" readonly="1"/>
             </group>
           </sheet>
         </form>
@@ -86,6 +88,7 @@
       <field name="name">DW Records</field>
       <field name="res_model">lamgido.dw.record</field>
       <field name="view_mode">tree,form,graph,pivot</field>
+
     </record>
 
     <!-- Menu -->

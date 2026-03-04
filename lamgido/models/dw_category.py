@@ -6,6 +6,7 @@ class DwCategory(models.Model):
     _description = 'DW Category'
     _order = 'name'
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, default="Create")
     description = fields.Text()
     active = fields.Boolean(default=True)
+
