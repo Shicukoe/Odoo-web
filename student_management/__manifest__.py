@@ -6,11 +6,12 @@
         'security/student_security.xml',
         'security/ir.model.access.csv',
 
-        'views/menu.xml',
         'views/student_views.xml',
         'views/class_views.xml',
         'views/score_views.xml',
         'views/kanban_views.xml',
+
+        'views/menu.xml',
 
         'wizard/report_wizard_view.xml',
 

@@ -1,0 +1,50 @@
+<odoo>
+
+<!-- TREE -->
+<record id="class_tree_view" model="ir.ui.view">
+    <field name="name">class.tree</field>
+    <field name="model">student.management.class</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name" string="Tên lớp học"/>
+            <field name="teacher_id"/>
+        </tree>
+    </field>
+</record>
+
+<!-- FORM -->
+<record id="class_form_view" model="ir.ui.view">
+    <field name="name">class.form</field>
+    <field name="model">student.management.class</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+
+                <group>
+                    <field name="name" string="Tên lớp học"/>
+                    <field name="teacher_id" string="Giáo viên chủ nhiệm"/>
+                </group>
+
+                <group string="Thông tin sinh viên">
+                    <field name="student_ids">
+                        <tree>
+                            <field name="student_code" string="Mã số sinh viên"/>
+                            <field name="name" string="Tên sinh viên"/>
+                            <field name="gpa" string="GPA"/>
+                        </tree>
+                    </field>
+                </group>
+
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<!-- ACTION -->
+<record id="class_action" model="ir.actions.act_window">
+    <field name="name">Classes</field>
+    <field name="res_model">student.management.class</field>
+    <field name="view_mode">tree,form,kanban</field>
+</record>
+
+</odoo>

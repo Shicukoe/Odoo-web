@@ -1,0 +1,25 @@
+<templates>
+
+<t t-name="student_management.GPAColor" owl="1">
+
+    <t t-if="props.value &lt; 6.5">
+        <span style="color:red;font-weight:bold;">
+            <t t-esc="props.value"/>
+        </span>
+    </t>
+
+    <t t-elif="props.value &lt; 8">
+        <span style="color:orange;font-weight:bold;">
+            <t t-esc="props.value"/>
+        </span>
+    </t>
+
+    <t t-else="">
+        <span style="color:green;font-weight:bold;">
+            <t t-esc="props.value"/>
+        </span>
+    </t>
+
+</t>
+
+</templates>

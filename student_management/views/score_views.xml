@@ -1,0 +1,43 @@
+<odoo>
+
+<!-- TREE -->
+<record id="score_tree_view" model="ir.ui.view">
+    <field name="name">score.tree</field>
+    <field name="model">student.management.score</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="student_id" string="Sinh Viên"/>
+            <field name="subject" string="Môn học"/>
+            <field name="score" string="Điểm"/>
+        </tree>
+    </field>
+</record>
+
+<!-- FORM -->
+<record id="score_form_view" model="ir.ui.view">
+    <field name="name">score.form</field>
+    <field name="model">student.management.score</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+
+                <group>
+                    <field name="student_id" string="Sinh Viên"/>
+                    <field name="subject" string="Môn học"/>
+                    <field name="score" string="Điểm"/>
+                    <field name="note" string="Ghi chú"/>
+                </group>
+
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<!-- ACTION -->
+<record id="score_action" model="ir.actions.act_window">
+    <field name="name">Scores</field>
+    <field name="res_model">student.management.score</field>
+    <field name="view_mode">tree,form,kanban</field>
+</record>
+
+</odoo>

@@ -1,0 +1,36 @@
+<odoo>
+
+<!-- STUDENT KANBAN -->
+
+<record id="student_kanban_view" model="ir.ui.view">
+    <field name="name">student.kanban</field>
+    <field name="model">student.management.student</field>
+    <field name="arch" type="xml">
+
+        <kanban>
+            <field name="name"/>
+            <field name="gpa"/>
+
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card">
+
+                        <strong>
+                            <field name="name" string="Tên sinh viên"/>
+                        </strong>
+
+                        <div>
+                            GPA:
+                            <field name="gpa" string="GPA"/>
+                        </div>
+
+                    </div>
+                </t>
+            </templates>
+
+        </kanban>
+
+    </field>
+</record>
+
+</odoo>

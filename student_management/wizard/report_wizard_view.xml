@@ -1,0 +1,40 @@
+<odoo>
+
+<record id="student_report_wizard_form" model="ir.ui.view">
+    <field name="name">student.report.wizard.form</field>
+    <field name="model">student.report.wizard</field>
+
+    <field name="arch" type="xml">
+        <form string="Wizard In Báo Cáo Sinh Viên">
+
+            <group>
+                <field name="student_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </group>
+
+            <footer>
+                <button string="Wizard In Báo Cáo"
+                        type="object"
+                        name="action_print_report"
+                        class="btn-primary"/>
+
+                <button string="Cancel"
+                        special="cancel"/>
+            </footer>
+
+        </form>
+    </field>
+</record>
+
+<record id="student_report_wizard_action"
+        model="ir.actions.act_window">
+
+    <field name="name">Student Report</field>
+    <field name="res_model">student.report.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+
+</record>
+
+</odoo>

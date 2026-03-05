@@ -1,60 +1,96 @@
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="student_management.list">
-      <field name="name">student_management list</field>
-      <field name="model">student_management.student_management</field>
-      <field name="arch" type="xml">
+
+<!-- TREE -->
+<record id="student_tree_view" model="ir.ui.view">
+    <field name="name">student.tree</field>
+    <field name="model">student.management.student</field>
+    <field name="arch" type="xml">
         <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
+            <header>
+                <button name="action_open_report_wizard"
+                        type="object"
+                        string="In Báo Cáo"
+                        class="btn-primary"/>
+            </header>
+
+            <field name="student_code" string="Mã số sinh viên"/>
+            <field name="name" string="Tên sinh viên"/>
+            <field name="birth_date" string="Ngày sinh"/>
+            <field name="gender" string="Giới tính"/>
+            <field name="class_id" string="Lớp học"/>
+            <field name="gpa" string="GPA"/>
         </tree>
-      </field>
-    </record>
--->
+    </field>
+</record>
 
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="student_management.action_window">
-      <field name="name">student_management window</field>
-      <field name="res_model">student_management.student_management</field>
-      <field name="view_mode">tree,form</field>
-    </record>
--->
+<!-- FORM -->
+<record id="student_form_view" model="ir.ui.view">
+    <field name="name">student.form</field>
+    <field name="model">student.management.student</field>
+    <field name="arch" type="xml">
+        <form>
+            <header>
+                <button name="action_open_report_wizard"
+                        type="object"
+                        string="In Báo Cáo"
+                        class="btn-primary"/>
+            </header>
 
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="student_management.action_server">
-      <field name="name">student_management server</field>
-      <field name="model_id" ref="model_student_management_student_management"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
+            <sheet>
 
-    <!-- Top menu item -->
-<!--
-    <menuitem name="student_management" id="student_management.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="student_management.menu_1" parent="student_management.menu_root"/>
-    <menuitem name="Menu 2" id="student_management.menu_2" parent="student_management.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="student_management.menu_1_list" parent="student_management.menu_1"
-              action="student_management.action_window"/>
-    <menuitem name="Server to list" id="student_management" parent="student_management.menu_2"
-              action="student_management.action_server"/>
--->
-  </data>
+                <group>
+                    <field name="student_code" string="Mã số sinh viên"/>
+                    <field name="name" string="Tên sinh viên"/>
+                    <field name="birth_date" widget="date" string="Ngày sinh"/>
+                    <field name="gender" string="Giới tính"/>
+                    <field name="class_id" string="Lớp học"/>
+                    <field name="gpa" widget="gpa_color" readonly="1" string="GPA"/>
+                </group>
+
+                <notebook>
+
+                    <page string="Bảng điểm">
+
+                        <field name="score_ids">
+                            <tree editable="bottom">
+                                <field name="subject" string="Môn học"/>
+                                <field name="score" string="Điểm"/>
+                                <field name="note" string="Ghi chú"/>
+                            </tree>
+                        </field>
+
+                    </page>
+
+                    <page string="Đính Kèm">
+                        <field name="attachment_ids"/>
+                    </page>
+
+                </notebook>
+
+            </sheet>
+
+        </form>
+    </field>
+</record>
+
+<!-- SEARCH -->
+<record id="student_search_view" model="ir.ui.view">
+    <field name="name">student.search</field>
+    <field name="model">student.management.student</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="name" string="Tên sinh viên"/>
+            <field name="student_code" string="Mã số sinh viên"/>
+            <field name="class_id" string="Lớp học"/>
+        </search>
+    </field>
+</record>
+
+<!-- ACTION -->
+<record id="student_action" model="ir.actions.act_window">
+    <field name="name">Students</field>
+    <field name="res_model">student.management.student</field>
+    <field name="view_mode">tree,form,kanban</field>
+</record>
+
 </odoo>

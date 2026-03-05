@@ -1,0 +1,22 @@
+<odoo>
+
+    <menuitem id="student_root_menu"
+              name="Student Management"
+              sequence="1"/>
+
+    <menuitem id="student_menu_student"
+              name="Students"
+              parent="student_root_menu"
+              action="student_action"/>
+
+    <menuitem id="student_menu_class"
+              name="Classes"
+              parent="student_root_menu"
+              action="class_action"/>
+
+    <menuitem id="student_menu_score"
+              name="Scores"
+              parent="student_root_menu"
+              action="score_action"/>
+
+</odoo>

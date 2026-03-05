@@ -1,8 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_student_teacher,student.teacher,model_student_management_student,student_management.group_teacher,1,0,0,0
 access_class_teacher,class.teacher,model_student_management_class,student_management.group_teacher,1,0,0,0
-access_score_teacher,score.teacher,model_student_management_score,student_management.group_teacher,1,1,0,0
+access_score_teacher,score.teacher,model_student_management_score,student_management.group_teacher,1,1,1,1
 
 access_student_student,student.student,model_student_management_student,student_management.group_student,1,0,0,0
 access_class_student,class.student,model_student_management_class,student_management.group_student,1,0,0,0
 access_score_student,score.student,model_student_management_score,student_management.group_student,1,0,0,0
+
+access_student_report_wizard_teacher,student.report.wizard.teacher,model_student_report_wizard,student_management.group_teacher,1,1,1,1
+access_student_report_wizard_student,student.report.wizard.student,model_student_report_wizard,student_management.group_student,1,1,1,1

@@ -1,0 +1,21 @@
+<odoo>
+
+<record id="cron_check_gpa" model="ir.cron">
+
+    <field name="name">Check Student GPA</field>
+
+    <field name="model_id"
+           ref="model_student_management_student"/>
+
+    <field name="state">code</field>
+
+    <field name="code">
+        model.check_low_gpa()
+    </field>
+
+    <field name="interval_number">1</field>
+    <field name="interval_type">weeks</field>
+
+</record>
+
+</odoo>

@@ -11,7 +11,7 @@ class Student(models.Model):
     gender = fields.Selection([
         ('male', 'Nam'),
         ('female', 'Nữ')
-    ])
+    ], string="Giới tính")
 
     class_id = fields.Many2one(
         'student.management.class',
@@ -32,7 +32,7 @@ class Student(models.Model):
 
     attachment_ids = fields.Many2many(
         'ir.attachment',
-        string="Attachments"
+        string="Tệp Đính Kèm"
     )
 
     @api.depends('score_ids.score')
@@ -43,3 +43,26 @@ class Student(models.Model):
                 rec.gpa = total / len(rec.score_ids)
             else:
                 rec.gpa = 0
+
+
+    def check_low_gpa(self):
+        students = self.search([('gpa', '<', 4)])
+        for student in students:
+            template = self.env.ref(
+                'student_management.email_template_gpa_warning'
+            )
+            template.send_mail(student.id, force_send=True)
+
+    def action_open_report_wizard(self):
+
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Student Report',
+            'res_model': 'student.report.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_student_id': self.id
+            }
+        }
