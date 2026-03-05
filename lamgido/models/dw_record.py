@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
 class DwRecord(models.Model):
@@ -15,6 +15,13 @@ class DwRecord(models.Model):
         ondelete='restrict'
     )
 
+    #Link Module Interaction
+    owner_partner_id = fields.Many2one(
+        'res.partner',
+        string='Owner (Customer)',
+        help='Customer that will be invoiced for this record.',
+    )
+
     # 🔹 Quantity should be Integer
     quantity = fields.Integer(required=True, default=1)
 
@@ -27,6 +34,14 @@ class DwRecord(models.Model):
         ('mb', 'MB'),
         ('gb', 'GB'),
     ], string="Unit", default='mb', required=True)
+
+    # 🔹 Owner selection
+    owner = fields.Selection([
+        ('google', 'Google'),
+        ('facebook', 'Facebook'),
+        ('amazon', 'Amazon'),
+        ('alibaba', 'Alibaba'),
+    ], string="Owner", required=True)
 
 
     state = fields.Selection([
@@ -42,3 +57,4 @@ class DwRecord(models.Model):
                 'lamgido.dw.record'
             ) or _('New')
         return super().create(vals)
+

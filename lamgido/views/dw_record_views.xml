@@ -66,6 +66,15 @@
           </header>
 
           <sheet>
+            <div class="oe_button_box" name="button_box">
+              <button name="action_open_invoice"
+                      type="object"
+                      class="oe_stat_button"
+                      icon="fa-file-text-o"
+                      attrs="{'invisible': [('invoice_id', '=', False)]}">
+                <field name="invoice_id" widget="statinfo" string="Invoice"/>
+              </button>
+            </div>
             <group>
               <field name="name"/>
               <field name="date"/>
@@ -84,7 +93,8 @@
 
               <page string="Owner Information">
                 <group>
-                  <field name="owner_id"/>
+                  <field name="owner"/>
+                  <field name="owner_partner_id"/>
                 </group>
               </page>
             </notebook>

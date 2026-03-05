@@ -12,7 +12,7 @@ including list, graph and pivot reports for internal analysis.
 
     'depends': [
         'base',
-        # 'point_of_sale',  
+        'account',
     ],
 
     'data': [

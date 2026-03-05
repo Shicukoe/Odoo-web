@@ -34,7 +34,7 @@
           <kanban default_group_by="state">
               <field name="name"/>
               <field name="total_size_kb"/>
-              <field name="owner_id"/>
+              <field name="owner"/>
               <field name="state"/>
 
               <templates>
@@ -45,7 +45,7 @@
                                   <field name="name"/>
                               </strong>
                               <div>
-                                  Owner: <field name="owner_id"/>
+                                  Owner: <field name="owner"/>
                               </div>
                               <div>
                                   Size: <field name="total_size_kb"/> KB

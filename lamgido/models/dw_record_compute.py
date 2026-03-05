@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class DwRecordCompute(models.Model):
@@ -22,3 +23,10 @@ class DwRecordCompute(models.Model):
             # kb stays as is
 
             rec.total_size_kb = total
+
+    @api.constrains('quantity', 'size_per_unit', 'size_unit')
+    def _check_positive_total_size_kb(self):
+        for rec in self:
+            # Only allow records with total size strictly greater than 0 KB
+            if rec.total_size_kb <= 0:
+                raise ValidationError("Total size must be greater than 0 KB.")

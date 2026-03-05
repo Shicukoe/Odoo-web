@@ -25,6 +25,13 @@ class DwCategory(models.Model):
         for rec in self:
             rec.record_count = len(rec.record_ids)
 
+    def action_view_records(self):
+        self.ensure_one()
+        action = self.env.ref('lamgido.action_dw_records').read()[0]
+        action['domain'] = [('category_id', '=', self.id)]
+        action['context'] = dict(self._context, default_category_id=self.id)
+        return action
+
     @api.constrains('name')
     def _check_unique_name(self):
         for rec in self:
