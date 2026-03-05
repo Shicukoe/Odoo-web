@@ -71,14 +71,28 @@
               <field name="date"/>
               <field name="category_id"/>
             </group>
+          
+            <notebook>
+              <page string="Storage Information">
+                  <group>
+                      <field name="quantity"/>
+                      <field name="size_per_unit"/>
+                      <field name="size_unit"/>
+                      <field name="total_size_kb" readonly="1"/>
+                  </group>
+              </page>
 
-            <group string="Storage Information">
-              <field name="quantity"/>
-              <field name="size_per_unit"/>
-              <field name="size_unit"/>
-              <field name="total_size_kb" readonly="1"/>
-            </group>
+              <page string="Owner Information">
+                <group>
+                  <field name="owner_id"/>
+                </group>
+              </page>
+            </notebook>
+
           </sheet>
+
+          
+
         </form>
       </field>
     </record>
@@ -87,8 +101,7 @@
     <record id="action_dw_records" model="ir.actions.act_window">
       <field name="name">DW Records</field>
       <field name="res_model">lamgido.dw.record</field>
-      <field name="view_mode">tree,form,graph,pivot</field>
-
+      <field name="view_mode">kanban,tree,form,graph,pivot</field>
     </record>
 
     <!-- Menu -->

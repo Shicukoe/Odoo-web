@@ -34,3 +34,11 @@ class DwRecord(models.Model):
         ('confirmed', 'Confirmed'),
         ('done', 'Done')
     ], default='draft')
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'lamgido.dw.record'
+            ) or _('New')
+        return super().create(vals)

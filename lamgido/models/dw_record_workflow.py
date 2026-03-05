@@ -20,3 +20,9 @@ class DwRecordWorkflow(models.Model):
     def action_reset_to_draft(self):
         for rec in self:
             rec.state = 'draft'
+
+    def unlink(self):
+        for rec in self:
+            if rec.state == 'confirmed':
+                raise UserError("Confirmed records cannot be deleted.")
+        return super(DwRecordWorkflow, self).unlink()
