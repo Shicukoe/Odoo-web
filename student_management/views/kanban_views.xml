@@ -33,4 +33,74 @@
     </field>
 </record>
 
+<!-- CLASS KANBAN -->
+<record id="class_kanban_view" model="ir.ui.view">
+    <field name="name">class.kanban</field>
+    <field name="model">student.management.class</field>
+    <field name="arch" type="xml">
+
+        <kanban>
+            <field name="name"/>
+            <field name="teacher_id"/>
+
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card">
+
+                        <strong>
+                            <field name="name" string="Tên lớp học"/>
+                        </strong>
+
+                        <div>
+                            Sĩ số:
+                            <field name="student_count" string="Sĩ số"/>
+                        </div>
+
+                    </div>
+                </t>
+            </templates>
+
+        </kanban>
+
+    </field>
+
+</record>    
+
+<!-- SCORE KANBAN -->
+<record id="score_kanban_view" model="ir.ui.view">
+    <field name="name">score.kanban</field>
+    <field name="model">student.management.score</field>
+    <field name="arch" type="xml">
+
+        <kanban>
+            <field name="student_id"/>
+            <field name="subject"/>
+            <field name="score"/>
+
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card">
+
+                        <strong>
+                            <field name="student_id" string="Sinh Viên"/>
+                        </strong>
+
+                        <div>
+                            Môn học:
+                            <field name="subject" string="Môn học"/>
+                        </div>
+
+                        <div>
+                            Điểm:
+                            <field name="score" string="Điểm"/>
+                        </div>
+
+                    </div>
+                </t>
+            </templates>
+
+        </kanban>
+
+    </field>
+</record>
 </odoo>

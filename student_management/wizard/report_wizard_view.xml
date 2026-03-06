@@ -5,7 +5,7 @@
     <field name="model">student.report.wizard</field>
 
     <field name="arch" type="xml">
-        <form string="Wizard In Báo Cáo Sinh Viên">
+        <form string="Báo Cáo Kết Quả Sinh Viên">
 
             <group>
                 <field name="student_id"/>

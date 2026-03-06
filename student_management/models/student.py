@@ -44,7 +44,6 @@ class Student(models.Model):
             else:
                 rec.gpa = 0
 
-
     def check_low_gpa(self):
         students = self.search([('gpa', '<', 4)])
         for student in students:

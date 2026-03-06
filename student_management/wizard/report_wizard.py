@@ -14,12 +14,6 @@ class StudentReportWizard(models.TransientModel):
 
     def action_print_report(self):
 
-        data = {
-            'student_id': self.student_id.id,
-            'date_from': self.date_from,
-            'date_to': self.date_to,
-        }
-
         return self.env.ref(
             'student_management.student_report_action'
-        ).report_action(self, data=data)
+        ).report_action(self.student_id)
