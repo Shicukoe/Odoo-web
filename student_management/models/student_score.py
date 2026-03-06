@@ -15,6 +15,7 @@ class StudentScore(models.Model):
         string="Sinh Viên"
     )
 
+
     @api.onchange('score')
     def _onchange_score(self):
 

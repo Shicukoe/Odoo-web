@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 class Student(models.Model):
     _name = 'student.management.student'
@@ -43,14 +44,40 @@ class Student(models.Model):
                 rec.gpa = total / len(rec.score_ids)
             else:
                 rec.gpa = 0
+    
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+
+        count = self.search_count([]) + 1
+        res['student_code'] = f"SV{count:03d}"
+
+        return res
+
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = f"[{rec.student_code}] {rec.name}"
+            result.append((rec.id, name))
+        return result
+    
+    def unlink(self):
+        if not self.env.user.has_group(
+            'student_management.group_teacher'
+        ):
+            raise UserError("Chỉ giáo viên mới được phép xóa sinh viên")
+        return super().unlink()
 
     def check_low_gpa(self):
         students = self.search([('gpa', '<', 4)])
+
+        template = self.env.ref('student_management.email_template_gpa_warning')
+
         for student in students:
-            template = self.env.ref(
-                'student_management.email_template_gpa_warning'
-            )
-            template.send_mail(student.id, force_send=True)
+            template.with_context(
+                student_name=student.name,
+                student_gpa=student.gpa
+            ).send_mail(student.id, force_send=True)
 
     def action_open_report_wizard(self):
 

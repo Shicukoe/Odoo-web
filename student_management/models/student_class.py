@@ -23,7 +23,6 @@ class StudentClass(models.Model):
     )
 
     def _compute_student_count(self):
-
         for rec in self:
             rec.student_count = self.env[
                 'student.management.student'
