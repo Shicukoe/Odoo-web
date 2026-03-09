@@ -9,10 +9,11 @@
         <div>
             <p>Hello,</p>
             <p>
-            Student <strong> {{ ctx.get('student_name') }} </strong> has GPA below average.
+                Student <strong><t t-out="ctx.get('student_name')"/></strong>
+                has GPA below average.
             </p>
             <p>
-            Current GPA: {{ ctx.get('student_gpa') }}
+                Current GPA: <t t-out="ctx.get('student_gpa')"/>
             </p>
         </div>
     </field>
