@@ -14,7 +14,7 @@ class StudentExam(models.Model):
         string="Sinh Viên"
     )
     exam_date = fields.Date(string= "Ngày thi")
-    state = fields.Selection([('draft', 'Draft'), ('confirmed', 'Confirmed'), ('done', 'Done')], string="Trạng thái", default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('confirmed', 'Confirmed'), ('sent', 'Sent')], string="Trạng thái", default='draft')
     line_ids = fields.One2many(
         'bi_student_exam.student_exam_line',
         'exam_id',
@@ -60,4 +60,22 @@ class StudentExam(models.Model):
             else:
                 record.rank = 'yếu'
 
-    
+    def action_confirm(self):
+        for record in self:
+            if not record.line_ids:
+                raise UserError("Không thể xác nhận kì thi khi chưa có điểm nào được nhập.")
+            record.state = 'confirmed'
+        for record in self:
+            if record.state != 'confirmed':
+                raise UserError("Chỉ có thể xác nhận kì thi khi đang ở trạng thái Draft.")
+            record.state = 'confirmed'
+
+    def action_sent(self):
+        for record in self:
+            if record.state != 'confirmed':
+                raise UserError("Chỉ có thể hoàn thành kì thi khi đã được xác nhận.")
+            record.state = 'sent'
+
+    def action_reset_to_draft(self):
+        for record in self:
+            record.state = 'draft'
