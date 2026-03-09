@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <menuitem id="bi_student_exam_root_menu"
+              name="Student Exam Management"
+              sequence="1"/>
+
+    <menuitem id="bi_student_exam_menu_exam"
+              name="Exams"
+              parent="bi_student_exam_root_menu"
+              action="bi_student_exam_results_action"/>
+
+    <menuitem id="bi_student_exam_menu_student"
+              name="Students and Results"
+              parent="bi_student_exam_root_menu"
+              action="bi_student_exam_action"/>
+  </data>
+</odoo>

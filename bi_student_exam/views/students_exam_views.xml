@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--list view-->
+    <record model="ir.ui.view" id="bi_student_exam.list">
+      <field name="name">bi_student_exam list</field>
+      <field name="model">bi_student_exam.student</field>
+      <field name="arch" type="xml">
+        <tree>
+            <field name="student_code"/>
+            <field name="name"/>
+            <field name="class_name"/>
+            <field name="date_of_birth"/>
+            <field name="phone"/>
+            <field name="email"/>
+            <field name="guardian_name"/>
+            <field name="guardian_email"/>
+        </tree>
+      </field>
+    </record>
+
+    <!--form view-->
+    <record model="ir.ui.view" id="bi_student_exam.form">
+      <field name="name">bi_student_exam form</field>
+      <field name="model">bi_student_exam.student</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="student_code"/>
+              <field name="name"/>
+              <field name="class_name"/>
+              <field name="date_of_birth"/>
+              <field name="phone"/>
+              <field name="email"/>
+              <field name="guardian_name"/>
+              <field name="guardian_email"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+   <!-- action to open the list view -->
+    <record model="ir.actions.act_window" id="bi_student_exam_action">
+            <field name="name">Students</field>
+            <field name="res_model">bi_student_exam.student</field>
+            <field name="help" type="html">
+         <p class="o_view_nocontent_smiling_face">
+           No students found. Let's create one!
+         </p>
+         <p>To get things done, use activities and status on students.
+         </p></field>
+            <field name="view_mode">list,form</field>
+    </record>
+                
+</odoo>
