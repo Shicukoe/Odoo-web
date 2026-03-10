@@ -1,20 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
-    <t t-name="One2manyDelete">
-   	 <div>
-   		 <button t-if="!widget.get('effective_readonly')" style="margin-bottom: 1%;display:none;"
-                	class="button_delete_order_lines"
-                	href="javascript:void(0)">
-   				 <span class="fa fa-trash"/>
-   			 </button>
-        	<button t-if="!widget.get('effective_readonly')" style="margin-bottom: 1%;display:none;"
-                	class="button_select_order_lines"
-                	href="javascript:void(0)">
-   				 <span class="fa fa-check"/>
-   			 </button>
-        	<t t-if="widget.get('effective_readonly')">
-   			 <span class="oe_form_char_content"></span>
-   		 </t>
-   	 </div>
-	</t>
-</templates>
+<?xml version="1.0" encoding="utf-8"?>
+<!--template for student info widget-->
+<t t-name="bi_student_exam.StudentInfoWidget" owl="1">
+    <div>
+        <Many2OneField t-props="props"/>
+
+        <div t-if="studentInfo" class="mt-2 border p-2">
+            <div>Class: <t t-esc="studentInfo.class_name"/></div>
+            <div>Phone: <t t-esc="studentInfo.phone"/></div>
+            <div>Email: <t t-esc="studentInfo.guardian_email"/></div>
+        </div>
+
+        <button type="button" t-on-click="refreshInfo" class="btn btn-primary btn-sm">
+            Refresh
+        </button>
+
+        <button type="button" t-on-click="generateAttachment" class="btn btn-secondary btn-sm">
+            Generate Result Attachment
+        </button>
+    </div>
+</t>

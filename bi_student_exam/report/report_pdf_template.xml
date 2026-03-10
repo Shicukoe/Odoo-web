@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--template for exam report including name,student,id,line_ids,total_score,average_score,rank,attachment_ids(name only)-->
+<!-- This template generates a pdf with qweb report layout -->
+<odoo>
+    <template id="report_pdf_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: 'DejaVu Sans', Arial, sans-serif; font-size:14px;">
+                        <h2 class="text-center">Exam Report</h2>
+                        <p><strong>Name:</strong> <span t-esc="doc.name"/></p>
+                        <p><strong>Student ID:</strong> <span t-esc="doc.student_id.name"/></p>
+                        <p><strong>Exam Date:</strong> <span t-esc="doc.exam_date"/></p>
+                        <table style="width:100%; border-collapse:collapse;">
+                            <thead>
+                                <tr>
+                                    <th style="border:1px solid black; padding:8px;">Subject</th>
+                                    <th style="border:1px solid black; padding:8px;">Score</th>
+                                    <th style="border:1px solid black; padding:8px;">Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <td style="border:1px solid black; padding:8px;"><span t-esc="line.subject_name"/></td>
+                                    <td style="border:1px solid black; padding:8px;"><span t-esc="line.score"/></td>
+                                    <td style="border:1px solid black; padding:8px;"><span t-esc="line.note"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Total Score:</strong> <span t-esc="doc.total_score"/></p>
+                        <p><strong>Average Score:</strong> <span t-esc="doc.average_score"/></p>
+                        <p><strong>Rank:</strong> <span t-esc="doc.rank"/></p>
+                        <p><strong>Attachments:</strong></p>
+                        <ul>
+                            <li t-foreach="doc.attachment_ids" t-as="attachment">
+                                <span t-esc="attachment.name"/>
+                            </li>
+                        </ul>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>             

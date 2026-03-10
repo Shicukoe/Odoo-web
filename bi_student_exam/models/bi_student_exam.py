@@ -78,4 +78,13 @@ class StudentExam(models.Model):
 
     def action_reset_to_draft(self):
         for record in self:
-            record.state = 'draft'
+            record.state = 'draft'    
+
+    # action to generate pdf report for student exam 
+    def action_view_report(self):
+        self.ensure_one()
+        return self.env.ref('bi_student_exam.report_pdf_action').report_action(self)
+    
+
+       
+    

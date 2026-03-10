@@ -40,6 +40,12 @@
                     string="Reset"
                     states="sent"/>
 
+            <button name="action_view_report"
+                    type="object"
+                    string="View Report"
+                    states="confirmed,sent"
+                    class="btn-info"/>
+
             <field name="state"
                    widget="statusbar"
                    statusbar_visible="draft,confirmed,sent"/>
@@ -50,7 +56,6 @@
                 <field name="name"/>
                 <field name="student_id"/>
                 <field name="exam_date" widget ="date"/>
-                <!-- <field name="state" widget ="statusbar"/> -->
                 <field name="line_ids">
                   <tree editable="bottom">
                     <field name="subject_name"/>
@@ -80,6 +85,17 @@
          </p></field>
         <field name="view_mode">list,form</field>
       </record>
+
+      <!-- action parse data and create pdf report-->
+        <record id="report_pdf_action" model="ir.actions.report">
+            <field name="name">Student Exam Report</field>
+            <field name="model">bi_student_exam.student_exam</field>
+            <field name="report_name">bi_student_exam.report_pdf_template</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_file">bi_student_exam.report_pdf_template</field>
+        </record>
+
+
 
     </data>
 </odoo>
