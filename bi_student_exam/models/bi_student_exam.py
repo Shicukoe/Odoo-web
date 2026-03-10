@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import base64
+
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 
@@ -85,6 +87,28 @@ class StudentExam(models.Model):
         self.ensure_one()
         return self.env.ref('bi_student_exam.report_pdf_action').report_action(self)
     
+    def action_generate_attachment(self):
 
+        for rec in self:
+
+            if not rec.id:
+                raise UserError("Please save the record first.")
+
+            content = f"""
+                    Exam: {rec.name}
+                    Student: {rec.student_id.name}
+                    Total Score: {rec.total_score}
+                    Average Score: {rec.average_score}
+                    Rank: {rec.rank}
+                    Generated At: {fields.Datetime.now()}
+                    """
+
+            self.env['ir.attachment'].create({
+                'name': 'exam_result.txt',
+                'type': 'binary',
+                'datas': base64.b64encode(content.encode()),
+                'res_model': 'bi_student_exam.student_exam',
+                'res_id': rec.id,
+            })
        
     

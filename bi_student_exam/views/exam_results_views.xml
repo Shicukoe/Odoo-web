@@ -54,7 +54,7 @@
             <sheet>
               <group>
                 <field name="name"/>
-                <field name="student_id"/>
+                <field name="student_id" widget = "student_info_widget"/>
                 <field name="exam_date" widget ="date"/>
                 <field name="line_ids">
                   <tree editable="bottom">
@@ -64,7 +64,7 @@
                   </tree>
                 </field>
                 <field name="total_score" readonly="1"/>
-                <field name="average_score" readonly="1"/>
+                <field name="average_score" widget = "custom_color" readonly="1"/>
                 <field name="rank" readonly="1"/>
                 <field name="attachment_ids" widget="many2many_binary"/>
               </group>

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'web'],
 
     # always loaded
     'data': [
@@ -38,15 +38,13 @@
         #email templates
 
         
-        #widgets
 
     ],
-    # 'assets': {
-    # 	'web.assets_backend': [
-    #     	'one2many_mass_select_delete/static/src/js/widget.js',
-    # 	],
-    # 	'web.assets_qweb': [
-    #     	'one2many_mass_select_delete/static/src/xml/widget_view.xml',
-    # 	],
-	# },
+    # assets loaded for custom widgets
+    'assets': {
+        'web.assets_backend': [
+            'bi_student_exam/static/src/xml/custom_widget_template.xml',
+            'bi_student_exam/static/src/js/custom_widget.js',
+        ],
+    },
 }
