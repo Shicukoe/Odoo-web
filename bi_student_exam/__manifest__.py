@@ -33,10 +33,20 @@
         'views/menu.xml',
 
         #reports
-
+        'report/report_action.xml',
+        'report/report_pdf_template.xml',
         #email templates
+
         
         #widgets
 
     ],
+    # 'assets': {
+    # 	'web.assets_backend': [
+    #     	'one2many_mass_select_delete/static/src/js/widget.js',
+    # 	],
+    # 	'web.assets_qweb': [
+    #     	'one2many_mass_select_delete/static/src/xml/widget_view.xml',
+    # 	],
+	# },
 }
