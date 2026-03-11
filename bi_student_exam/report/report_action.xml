@@ -1,11 +1,9 @@
 <odoo>
-<record id="report_pdf_action" model="ir.actions.report">
-    <field name="name">Student Exam Report</field>
-    <field name="model">bi_student_exam.student_exam</field>
-    <field name="report_name">bi_student_exam.report_pdf_template</field>
-    <field name="report_type">qweb-pdf</field>
-    <field name="report_file">bi_student_exam.report_pdf_template</field>
-
-</record>
-
+    <record id="report_pdf_action" model="ir.actions.report">
+        <field name="name">Student Exam Report</field>
+        <field name="model">bi_student_exam.student_exam</field>
+        <field name="report_name">bi_student_exam.report_pdf_template</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">bi_student_exam.report_pdf_template</field>
+    </record>
 </odoo>

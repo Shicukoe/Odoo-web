@@ -1,62 +1,69 @@
 /** @odoo-module **/
 
 import { registry } from "@web/core/registry";
-import { Many2OneField } from "@web/views/fields/many2one/many2one_field";
 import { useService } from "@web/core/utils/hooks";
-import { useState } from "@odoo/owl";
-import { Component } from "@odoo/owl";
+import { Component, useState, onMounted, onWillUpdateProps } from "@odoo/owl";
+import { standardFieldProps } from "@web/views/fields/standard_field_props";
+import { Many2OneField } from "@web/views/fields/many2one/many2one_field";
 
 // Custom Student information widget
-export class StudentInfoWidget extends Many2OneField {
-    setup() {
-        super.setup();
+export class StudentInfoWidget extends Component {
+    setup(){
         this.orm = useService("orm");
         this.state = useState({
-            studentInfo: null,
+            student: null
+        });
+        onMounted(() => {
+        this.loadStudent(this.props.value);
+        });
+
+        onWillUpdateProps((nextProps) => {
+            if(nextProps.value !== this.props.value){
+                this.loadStudent(nextProps.value);
+            }
         });
     }
-    async refreshInfo() {
-        if (!this.props.value) {
-            this.state.studentInfo = null;
+    
+    async loadStudent(){
+        const value = this.props.record.data.student_id;
+        const student_id = Array.isArray(value) ? value[0] : value;
+
+        if(!student_id){
+            this.state.student = null;
             return;
         }
 
-        const studentId = this.props.value[0];
-
-        const result = await this.orm.read(
+        const data = await this.orm.read(
             "bi_student_exam.student",
-            [studentId],
-            ["class_name", "phone", "guardian_email"]
+            [student_id],
+            ["class_name","phone","guardian_email"]
         );
-
-        if (result.length) {
-            this.state.studentInfo = result[0];
-        }
+        this.state.student = data.length ? data[0] : null;
     }
 
-    async generateAttachment() {
+    async refreshInfo(){
+        await this.loadStudent();
+    }
 
-        const recordId = this.props.record.resId;
-
-        if (!recordId) {
-            alert("Please save the exam record first.");
-            return;
-        }
-
+    async generateAttachment(){
         await this.orm.call(
             "bi_student_exam.student_exam",
             "action_generate_attachment",
-            [recordId]
+            [this.props.exam_id]
         );
 
-        alert("Attachment generated.");
     }
+
 }
 
 StudentInfoWidget.template = "bi_student_exam.StudentInfoWidget";
+StudentInfoWidget.components = { Many2OneField };
+StudentInfoWidget.supportedFieldTypes = ["many2one"];
+StudentInfoWidget.props = standardFieldProps;
 registry.category("fields").add("student_info_widget",StudentInfoWidget);
 
 // Custom Color Widget
 class CustomColor extends Component {}
 CustomColor.template = "bi_student_exam.CustomColor";
+CustomColor.supportedFieldTypes = ["float"];
 registry.category("fields").add("custom_color", CustomColor);

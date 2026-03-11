@@ -88,11 +88,9 @@ class StudentExam(models.Model):
         return self.env.ref('bi_student_exam.report_pdf_action').report_action(self)
     
     def action_generate_attachment(self):
-
         for rec in self:
-
             if not rec.id:
-                raise UserError("Please save the record first.")
+                raise UserError("Vui lòng lưu kì thi trước khi tạo tệp đính kèm.")
 
             content = f"""
                     Exam: {rec.name}

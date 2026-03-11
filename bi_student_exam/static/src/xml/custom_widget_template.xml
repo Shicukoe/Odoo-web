@@ -1,75 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <templates xml:space="preserve">
-
-<t t-name="bi_student_exam.StudentInfoWidget"
-   t-inherit="web.Many2OneField"
-   t-inherit-mode="extension"
-   owl="1">
-
-    <xpath expr="//div[contains(@class,'o_field_many2one_extra')]" position="after">
-
-        <div t-if="component.state.studentInfo" class="mt-2 border p-2">
-
-            <div>
-                <strong>Class:</strong>
-                <t t-esc="component.state.studentInfo.class_name"/>
-            </div>
-
-            <div>
-                <strong>Phone:</strong>
-                <t t-esc="component.state.studentInfo.phone"/>
-            </div>
-
-            <div>
-                <strong>Guardian Email:</strong>
-                <t t-esc="component.state.studentInfo.guardian_email"/>
-            </div>
-
+    <t t-name="bi_student_exam.StudentInfoWidget" owl="1">
+        <div>
+            <Many2OneField t-props="props"/>
+                <div class="alert alert-info mt-2" t-if="state.student">
+                    <h5>Thông tin nhanh</h5>
+                        <p>
+                        <b>Lớp học:</b>
+                        <t t-esc="state.student.class_name"/>
+                        </p>
+                        <p>
+                        <b>Số Điện Thoại:</b>
+                        <t t-esc="state.student.phone"/>
+                        </p>
+                        <p>
+                        <b>Email của Người giám hộ:</b>
+                        <t t-esc="state.student.guardian_email"/>
+                        </p>
+                    <button class="btn btn-secondary" t-on-click="refreshInfo"> Refresh Info</button>
+                    <button class="btn btn-primary" t-on-click="generateAttachment">Generate Result Attachment</button>
+                </div>
         </div>
-
-        <div class="mt-2">
-
-            <button
-                class="btn btn-primary btn-sm"
-                t-on-click="component.refreshInfo">
-
-                Refresh
-            </button>
-
-            <button
-                class="btn btn-secondary btn-sm"
-                t-on-click="component.generateAttachment">
-
-                Generate Attachment
-            </button>
-
-        </div>
-
-    </xpath>
-
-</t>
-
-<t t-name="bi_student_exam.CustomColor" owl="1">
-
-    <t t-if="props.value &lt; 6.5">
-        <span style="color:red;font-weight:bold;">
-            <t t-esc="props.value"/>
-        </span>
     </t>
 
-    <t t-elif="props.value &lt; 8">
-        <span style="color:orange;font-weight:bold;">
-            <t t-esc="props.value"/>
-        </span>
+    <t t-name="bi_student_exam.CustomColor" owl="1">
+        <t t-if="props.value &lt; 6.5">
+            <span style="color:red;font-weight:bold;">
+                <t t-esc="props.value"/>
+            </span>
+        </t>
+        <t t-elif="props.value &lt; 8">
+            <span style="color:orange;font-weight:bold;">
+                <t t-esc="props.value"/>
+            </span>
+        </t>
+        <t t-else="">
+            <span style="color:green;font-weight:bold;">
+                <t t-esc="props.value"/>
+            </span>
+        </t>
     </t>
-
-    <t t-else="">
-        <span style="color:green;font-weight:bold;">
-            <t t-esc="props.value"/>
-        </span>
-    </t>
-
-</t>
-
 </templates>

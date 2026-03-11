@@ -43,8 +43,8 @@
     # assets loaded for custom widgets
     'assets': {
         'web.assets_backend': [
-            'bi_student_exam/static/src/xml/custom_widget_template.xml',
             'bi_student_exam/static/src/js/custom_widget.js',
+            'bi_student_exam/static/src/xml/custom_widget_template.xml',
         ],
     },
 }
