@@ -4,7 +4,7 @@ import base64
 
 from odoo import models, fields, api
 from odoo.exceptions import UserError
-
+from odoo.tools import format_datetime
 
 class StudentExam(models.Model):
     _name = 'bi_student_exam.student_exam'
@@ -72,11 +72,18 @@ class StudentExam(models.Model):
                 raise UserError("Chỉ có thể xác nhận kì thi khi đang ở trạng thái Draft.")
             record.state = 'confirmed'
 
+    # action to set state to sent will trigger the email sending process to guardian email of the student
     def action_sent(self):
         for record in self:
             if record.state != 'confirmed':
-                raise UserError("Chỉ có thể hoàn thành kì thi khi đã được xác nhận.")
+                raise UserError("Chỉ có thể gửi kì thi khi đang ở trạng thái Confirmed.")
             record.state = 'sent'
+            template = self.env.ref('bi_student_exam.email_template_send_result')
+            template.with_context(student_name=record.student_id.name, student_gpa=record.average_score, line_ids=record.line_ids, student_email=record.student_id.guardian_email).send_mail(record.id, force_send=True)
+            if template:
+                template.send_mail(record.id, force_send=True)
+            else:
+                raise UserError("Không tìm thấy mẫu email để gửi kết quả.")
 
     def action_reset_to_draft(self):
         for record in self:
@@ -98,7 +105,7 @@ class StudentExam(models.Model):
                     Total Score: {rec.total_score}
                     Average Score: {rec.average_score}
                     Rank: {rec.rank}
-                    Generated At: {fields.Datetime.now()}
+                    Generated At: {format_datetime(self.env, fields.Datetime.now())}
                     """
 
             self.env['ir.attachment'].create({

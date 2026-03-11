@@ -36,7 +36,7 @@
         'report/report_action.xml',
         'report/report_pdf_template.xml',
         #email templates
-
+        'data/email_template.xml',
         
 
     ],

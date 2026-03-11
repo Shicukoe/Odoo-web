@@ -46,10 +46,17 @@ export class StudentInfoWidget extends Component {
     }
 
     async generateAttachment(){
+        const id = this.props.record.resId;
+
+        if(!id){
+            alert("Please save the record first");
+            return;
+        }
+
         await this.orm.call(
             "bi_student_exam.student_exam",
             "action_generate_attachment",
-            [this.props.exam_id]
+            [[id]]
         );
 
     }

@@ -1,0 +1,29 @@
+<odoo>
+<data noupdate = "1">
+    <record id="email_template_send_result" model="mail.template">
+        <field name="name">Send Exam Results</field>
+        <field name="model_id" ref="bi_student_exam.student_exam"/>
+        <field name="subject">Exam Results</field>
+        <field name="email_to">ctx.get('student_email')</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello,</p>
+                <p>
+                    Student <strong><t t-out="ctx.get('student_name')"/></strong>
+                    has exam result like this:
+                </p>
+                <p>
+                    Subjects and Scores:
+                </p>
+                <ul>
+                    <t t-foreach="ctx.get('line_ids')" t-as="line">
+                        <li>
+                            <t t-out="line.subject_id.name"/>: <t t-out="line.score"/>
+                        </li>
+                    </t>
+                </ul>
+            </div>
+        </field>
+    </record>
+</data>
+</odoo>
