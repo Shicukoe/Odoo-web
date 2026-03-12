@@ -78,12 +78,10 @@ class StudentExam(models.Model):
             if record.state != 'confirmed':
                 raise UserError("Chỉ có thể gửi kì thi khi đang ở trạng thái Confirmed.")
             record.state = 'sent'
-            template = self.env.ref('bi_student_exam.email_template_send_result')
-            template.with_context(student_name=record.student_id.name, student_gpa=record.average_score, line_ids=record.line_ids, student_email=record.student_id.guardian_email).send_mail(record.id, force_send=True)
-            if template:
-                template.send_mail(record.id, force_send=True)
-            else:
-                raise UserError("Không tìm thấy mẫu email để gửi kết quả.")
+        self.ensure_one()
+        template = self.env.ref('bi_student_exam.email_template_send_result')
+        template.send_mail(self.id, force_send=True)
+           
 
     def action_reset_to_draft(self):
         for record in self:
@@ -99,14 +97,13 @@ class StudentExam(models.Model):
             if not rec.id:
                 raise UserError("Vui lòng lưu kì thi trước khi tạo tệp đính kèm.")
 
-            content = f"""
-                    Exam: {rec.name}
-                    Student: {rec.student_id.name}
-                    Total Score: {rec.total_score}
-                    Average Score: {rec.average_score}
-                    Rank: {rec.rank}
-                    Generated At: {format_datetime(self.env, fields.Datetime.now())}
-                    """
+            content = f""" Exam: {rec.name}
+Student: {rec.student_id.name}
+Total Score: {rec.total_score}
+Average Score: {rec.average_score}
+Rank: {rec.rank}
+Generated At: {format_datetime(self.env, fields.Datetime.now())}
+"""
 
             self.env['ir.attachment'].create({
                 'name': 'exam_result.txt',

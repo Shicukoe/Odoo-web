@@ -46,7 +46,7 @@ export class StudentInfoWidget extends Component {
     }
 
     async generateAttachment(){
-        const id = this.props.record.resId;
+        const id = this.props.record.res_id;
 
         if(!id){
             alert("Please save the record first");

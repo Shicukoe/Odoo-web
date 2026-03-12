@@ -20,12 +20,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web'],
+    'depends': ['base', 'web', 'mail', 'contacts'],
 
     # always loaded
     'data': [
         #security
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
 
         #views
         'views/students_exam_views.xml',
