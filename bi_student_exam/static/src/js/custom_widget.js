@@ -46,18 +46,21 @@ export class StudentInfoWidget extends Component {
     }
 
     async generateAttachment(){
-        const id = this.props.record.res_id;
+        const id = this.props.record.resId;
 
         if(!id){
             alert("Please save the record first");
             return;
         }
-
-        await this.orm.call(
-            "bi_student_exam.student_exam",
-            "action_generate_attachment",
-            [[id]]
-        );
+        
+        try {
+            await this.orm.call("bi_student_exam.student_exam", "action_generate_attachment", [id]);
+            await this.props.record.model.root.load();
+            alert("Attachment generated successfully");
+            console.log("Generating attachment for record ID:", id);
+        } catch (error) {
+            alert("Error generating attachment: " + error.message);
+        }
 
     }
 

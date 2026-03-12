@@ -6,15 +6,15 @@
                 <div class="alert alert-info mt-2" t-if="state.student">
                     <h5>Thông tin nhanh</h5>
                         <p>
-                        <b>Lớp học:</b>
+                        <b>Lớp học: </b>
                         <t t-esc="state.student.class_name"/>
                         </p>
                         <p>
-                        <b>Số Điện Thoại:</b>
+                        <b>Số Điện Thoại: </b>
                         <t t-esc="state.student.phone"/>
                         </p>
                         <p>
-                        <b>Email của Người giám hộ:</b>
+                        <b>Email của Người giám hộ: </b>
                         <t t-esc="state.student.guardian_email"/>
                         </p>
                     <button class="btn btn-secondary" t-on-click="refreshInfo"> Refresh Info</button>

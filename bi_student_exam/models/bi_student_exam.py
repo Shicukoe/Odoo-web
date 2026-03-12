@@ -105,12 +105,13 @@ Rank: {rec.rank}
 Generated At: {format_datetime(self.env, fields.Datetime.now())}
 """
 
-            self.env['ir.attachment'].create({
+            new_attachment =self.env['ir.attachment'].create({
                 'name': 'exam_result.txt',
                 'type': 'binary',
                 'datas': base64.b64encode(content.encode()),
                 'res_model': 'bi_student_exam.student_exam',
                 'res_id': rec.id,
             })
+            rec.write({'attachment_ids': [(4, new_attachment.id)]})
        
     
